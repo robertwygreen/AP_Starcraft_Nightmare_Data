@@ -90,10 +90,6 @@ int gv_masteryObjectiveDestroyKerriganBase;
 bool gv_victoryCinematicCompleted;
 unitgroup gv_zerglingGroupNorth;
 unitgroup gv_zerglingGroupSouth;
-actor gv_relicPingActor2;
-int gv_objective_Relics2;
-int gv_relicsFound2;
-int gv_relicsNeeded2;
 int gv_objective_Forcefields;
 int gv_forcefieldsBusted;
 
@@ -116,7 +112,6 @@ void InitGlobals () {
     gv_masteryObjectiveDestroyKerriganBase = c_invalidObjectiveId;
     gv_zerglingGroupNorth = UnitGroupEmpty();
     gv_zerglingGroupSouth = UnitGroupEmpty();
-    gv_objective_Relics2 = c_invalidObjectiveId;
     gv_objective_Forcefields = c_invalidObjectiveId;
 }
 
@@ -222,6 +217,7 @@ trigger gt_ObjectiveRelicsCreateQ;
 trigger gt_ObjectiveRelicsDiscover;
 trigger gt_ObjectiveRelicsUpdate;
 trigger gt_ObjectiveRelicsComplete;
+trigger gt_ObjectiveRelicsRemove;
 trigger gt_RelicTipQ;
 trigger gt_MasteryObjectiveDestroyKerriganBaseCreate;
 trigger gt_MasteryKerriganBaseDestroyed;
@@ -233,8 +229,6 @@ trigger gt_VictorySetup;
 trigger gt_VictoryCinematic;
 trigger gt_VictoryCinematicEnd;
 trigger gt_VictoryCleanup;
-trigger gt_StartGame2;
-trigger gt_ObjectiveRelicsRemove;
 trigger gt_onDifficultyCasual;
 trigger gt_onDifficultyNormal;
 trigger gt_onDifficultyHard;
@@ -839,6 +833,10 @@ bool gt_StartGame_Func (bool testConds, bool runActions) {
     TriggerExecute(gt_CampaignTipsQ, true, false);
     Wait(8.0, c_timeReal);
     TriggerExecute(gt_ArtifactRaceQ, true, false);
+    Wait(8.0, c_timeReal);
+    TriggerExecute(gt_ObjectiveForcefieldsCreateQ, true, true);
+    Wait(8.0, c_timeReal);
+    TriggerExecute(gt_MasteryObjectiveDestroyKerriganBaseCreate, true, true);
     return true;
 }
 
@@ -4560,7 +4558,13 @@ void gt_ObjectiveDestroytheStatuesComplete_Init () {
 // Trigger: Objective - Relics - Create Q
 //--------------------------------------------------------------------------------------------------
 bool gt_ObjectiveRelicsCreateQ_Func (bool testConds, bool runActions) {
+    // Variable Declarations
+    int lv_category;
+
     // Automatic Variable Declarations
+    // Variable Initialization
+    lv_category = lib5BD4895D_ge_APObjectiveCategory_Secondary;
+
     // Conditions
     if (testConds) {
         if (!((TriggerIsEnabled(TriggerGetCurrent()) == true))) {
@@ -4575,8 +4579,9 @@ bool gt_ObjectiveRelicsCreateQ_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerQueueEnter();
-    ObjectiveCreate((StringExternal("Param/Value/D3C88D88") + libCamp_gf_StoryResearchSupplementTextForObjective(libCamp_ge_StoryResearchObject_ResearchObjectFindProtossRelics, libCamp_ge_StoryResearchObjectiveTextStyle_Multipart, gv_relicsNeeded, gv_relicsFound) + StringExternal("Param/Value/E005FE1E")), StringExternal("Param/Value/3A5CA4C7"), c_objectiveStateActive, false);
+    ObjectiveCreate(StringExternal("Param/Value/8C1DC11A"), StringExternal("Param/Value/8CE5899C"), c_objectiveStateHidden, false);
     gv_objective_Relics = ObjectiveLastCreated();
+    lib5BD4895D_gf_AP_Core_addCategoryObjectiveWithCounter(gv_objective_Relics, lv_category, "", gv_relicsFound, 4, true);
     lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation(gv_objective_Relics, gv_LOCATION_ID_FIRST_RELIC);
     lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation(gv_objective_Relics, gv_LOCATION_ID_SECOND_RELIC);
     lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation(gv_objective_Relics, gv_LOCATION_ID_THIRD_RELIC);
@@ -4720,6 +4725,41 @@ void gt_ObjectiveRelicsComplete_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
+// Trigger: Objective - Relics - Remove
+//--------------------------------------------------------------------------------------------------
+bool gt_ObjectiveRelicsRemove_Func (bool testConds, bool runActions) {
+    // Automatic Variable Declarations
+    // Conditions
+    if (testConds) {
+        if (!(((lib5BD4895D_gv_aP_Core_locationCollectable[gv_LOCATION_ID_FIRST_RELIC] == false) && (lib5BD4895D_gv_aP_Core_locationCollectable[gv_LOCATION_ID_SECOND_RELIC] == false) && (lib5BD4895D_gv_aP_Core_locationCollectable[gv_LOCATION_ID_THIRD_RELIC] == false) && (lib5BD4895D_gv_aP_Core_locationCollectable[gv_LOCATION_ID_FOURTH_RELIC] == false)))) {
+            return false;
+        }
+    }
+
+    // Actions
+    if (!runActions) {
+        return true;
+    }
+
+    TriggerEnable(TriggerGetCurrent(), false);
+    UnitRemove(UnitFromId(584));
+    UnitRemove(UnitFromId(430));
+    UnitRemove(UnitFromId(832));
+    UnitRemove(UnitFromId(649));
+    TriggerEnable(gt_RelicTipQ, false);
+    TriggerEnable(gt_ObjectiveRelicsDiscover, false);
+    TriggerEnable(gt_ObjectiveRelicsCreateQ, false);
+    TriggerEnable(gt_ObjectiveRelicsUpdate, false);
+    return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+void gt_ObjectiveRelicsRemove_Init () {
+    gt_ObjectiveRelicsRemove = TriggerCreate("gt_ObjectiveRelicsRemove_Func");
+    TriggerAddEventGeneric(gt_ObjectiveRelicsRemove, lib5BD4895D_gv_aP_Core_LOAD_FINISHED_EVENT);
+}
+
+//--------------------------------------------------------------------------------------------------
 // Trigger: Relic Tip Q
 //--------------------------------------------------------------------------------------------------
 bool gt_RelicTipQ_Func (bool testConds, bool runActions) {
@@ -4771,8 +4811,11 @@ bool gt_MasteryObjectiveDestroyKerriganBaseCreate_Func (bool testConds, bool run
     }
 
     TriggerEnable(TriggerGetCurrent(), false);
-    ObjectiveCreate(StringExternal("Param/Value/3B9D4251"), StringToText(""), c_objectiveStateHidden, true);
+    ObjectiveCreate(StringExternal("Param/Value/45320C69"), StringToText(""), c_objectiveStateHidden, true);
     gv_masteryObjectiveDestroyKerriganBase = ObjectiveLastCreated();
+    lib5BD4895D_gf_AP_Core_addCategoryObjectiveSimple(gv_masteryObjectiveDestroyKerriganBase, lib5BD4895D_ge_APObjectiveCategory_Mastery, true);
+    lib5BD4895D_gf_AP_Core_associateObjectiveWithLocation(gv_masteryObjectiveDestroyKerriganBase, gv_LOCATION_ID_DESTROY_KERRIGAN_BASE);
+    lib5BD4895D_gf_AP_Core_setObjectiveVisibility(gv_masteryObjectiveDestroyKerriganBase, true);
     return true;
 }
 
@@ -4816,6 +4859,8 @@ bool gt_MasteryKerriganBaseDestroyed_Func (bool testConds, bool runActions) {
 
     TriggerEnable(TriggerGetCurrent(), false);
     TriggerExecute(gt_MasteryObjectiveDestroyKerriganBaseCreate, true, false);
+    lib5BD4895D_gf_AP_Core_collectLocationUpdateObjective(gv_LOCATION_ID_DESTROY_KERRIGAN_BASE);
+    lib5BD4895D_gf_AP_Core_setObjectiveCompleted(gv_masteryObjectiveDestroyKerriganBase);
     return true;
 }
 
@@ -5533,62 +5578,6 @@ void gt_VictoryCleanup_Init () {
 }
 
 //--------------------------------------------------------------------------------------------------
-// Trigger: Start Game 2
-//--------------------------------------------------------------------------------------------------
-bool gt_StartGame2_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    if ((libNtve_gf_DifficultyValueInt(0, 0, 1, 1) == 1)) {
-    }
-
-    Wait(2.0, c_timeReal);
-    Wait(8.0, c_timeReal);
-    Wait(8.0, c_timeReal);
-    Wait(8.0, c_timeReal);
-    Wait(2.0, c_timeGame);
-    Wait(2.0, c_timeGame);
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_StartGame2_Init () {
-    gt_StartGame2 = TriggerCreate("gt_StartGame2_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
-// Trigger: Objective - Relics - Remove
-//--------------------------------------------------------------------------------------------------
-bool gt_ObjectiveRelicsRemove_Func (bool testConds, bool runActions) {
-    // Automatic Variable Declarations
-    // Conditions
-    if (testConds) {
-        if (!((true))) {
-            return false;
-        }
-    }
-
-    // Actions
-    if (!runActions) {
-        return true;
-    }
-
-    TriggerEnable(TriggerGetCurrent(), false);
-    UnitRemove(UnitFromId(430));
-    UnitRemove(UnitFromId(832));
-    UnitRemove(UnitFromId(649));
-    return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-void gt_ObjectiveRelicsRemove_Init () {
-    gt_ObjectiveRelicsRemove = TriggerCreate("gt_ObjectiveRelicsRemove_Func");
-}
-
-//--------------------------------------------------------------------------------------------------
 // Trigger: onDifficultyCasual
 //--------------------------------------------------------------------------------------------------
 bool gt_onDifficultyCasual_Func (bool testConds, bool runActions) {
@@ -6063,6 +6052,7 @@ void InitTriggers () {
     gt_ObjectiveRelicsDiscover_Init();
     gt_ObjectiveRelicsUpdate_Init();
     gt_ObjectiveRelicsComplete_Init();
+    gt_ObjectiveRelicsRemove_Init();
     gt_RelicTipQ_Init();
     gt_MasteryObjectiveDestroyKerriganBaseCreate_Init();
     gt_MasteryKerriganBaseDestroyed_Init();
@@ -6074,8 +6064,6 @@ void InitTriggers () {
     gt_VictoryCinematic_Init();
     gt_VictoryCinematicEnd_Init();
     gt_VictoryCleanup_Init();
-    gt_StartGame2_Init();
-    gt_ObjectiveRelicsRemove_Init();
     gt_onDifficultyCasual_Init();
     gt_onDifficultyNormal_Init();
     gt_onDifficultyHard_Init();
