@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CUpgrade id="AberrationPlating">
+        <EffectArray Reference="Unit,InfestedAbomination,LifeArmor" Value="2"/>
+        <EffectArray Reference="Unit,InfestedAbomination,LifeArmorLevel" Value="2"/>
+        <EditorCategories value="Race:Zerg,UpgradeType:Talents"/>
+    </CUpgrade>
+</Catalog>
