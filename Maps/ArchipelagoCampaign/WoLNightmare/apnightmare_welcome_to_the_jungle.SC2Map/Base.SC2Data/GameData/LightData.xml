@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CLight id="BelShir">
+        <ToDInfoArray index="0" OperatorHDR="4">
+            <Param index="HDRGain" value="0.000000"/>
+            <Param index="HDRScale" value="0.000000"/>
+            <Param index="AOOcclusionRadius" value="1.000000"/>
+            <Param index="AONoOcclusion" value="0.900000"/>
+            <Param index="AOOcclusionPower" value="2.000000"/>
+            <Param index="AODetailOcclusionRadius" value="0.020000"/>
+            <Param index="AODetailNoOcclusion" value="0.060000"/>
+            <Param index="AODetailOcclusionPower" value="4.000000"/>
+            <DirectionalLight index="Key" Color="0.937255,0.933333,0.811765" SpecColorMultiplier="1.250000" Direction="0.724693,-0.124265,-0.677775"/>
+            <DirectionalLight index="Fill" Color="0.211765,0.529412,0.529412" ColorMultiplier="1.500000" Direction="-0.463854,-0.769851,0.438371"/>
+            <DirectionalLight index="Back" ColorMultiplier="1.400000"/>
+        </ToDInfoArray>
+    </CLight>
+    <CLight id="BelShirEx2">
+        <ToDInfoArray index="0" Id="BelShirEx2">
+            <Param index="AODetailOcclusionRadius" value="0.020000"/>
+        </ToDInfoArray>
+    </CLight>
+</Catalog>

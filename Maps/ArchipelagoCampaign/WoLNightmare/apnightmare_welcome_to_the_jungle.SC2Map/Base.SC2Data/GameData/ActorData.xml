@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CActorModel id="PurifierShield">
+        <On index="3" Terms="ActorCreation" Send="AnimBracketStart GL_BSD GLbirth GLstand GLdeath"/>
+        <On index="4" removed="1"/>
+        <On index="5" removed="1"/>
+        <On index="6" removed="1"/>
+    </CActorModel>
+    <!-- Planet Cracker                                                                          -->
+    <CActorSound id="PurifierShieldDown">
+        <On index="1" removed="1"/>
+    </CActorSound>
+    <CActorSound id="PurifierShieldUp">
+        <On index="1" removed="1"/>
+    </CActorSound>
+</Catalog>
