@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CLight id="Avernus">
+        <ToDInfoArray index="0">
+            <Param index="ColorizationInputHigh" value="0.996000"/>
+            <Param index="ColorizationContrast" value="1.290000"/>
+            <DirectionalLight index="Key" SpecColorMultiplier="1.000000" Direction="0.011465,-0.068808,-0.997564"/>
+        </ToDInfoArray>
+    </CLight>
+    <CLight id="CustomLight" parent="default">
+        <ToDInfoArray index="0">
+            <Id value="CustomLight"/>
+            <AmbientColor value="0.188235,0.215686,0.286275"/>
+            <OperatorHDR value="0"/>
+            <Colorize value="1"/>
+            <Param index="HDRExposure" value="1.500000"/>
+            <Param index="HDRBloomThreshold" value="1.100000"/>
+            <Param index="HDRWhitePoint" value="1.850000"/>
+            <Param index="TerrainSpecularExp" value="11.210000"/>
+            <Param index="TerrainHDRSpecular" value="3.750000"/>
+            <Param index="CreepSpecularExp" value="30.000000"/>
+            <Param index="CreepHDRSpecMultiplier" value="3.000000"/>
+            <Param index="ColorizationInputHigh" value="0.996000"/>
+            <Param index="ColorizationContrast" value="1.290000"/>
+            <Param index="ColorizationHue" value="0.001000"/>
+            <Param index="ColorizationBlend" value="0.180000"/>
+            <DirectionalLight index="Key">
+                <Color value="0.694118,0.858824,1.000000"/>
+                <ColorMultiplier value="1.000000"/>
+                <SpecColorMultiplier value="3.126000"/>
+                <Direction value="0.265947,-0.585191,-0.766044"/>
+            </DirectionalLight>
+            <DirectionalLight index="Fill" Color="0.184314,0.211765,0.235294" ColorMultiplier="2.200000" Direction="-0.463854,-0.769851,0.438371"/>
+            <DirectionalLight index="Back" Color="0.749020,0.184314,0.211765" ColorMultiplier="2.371000" Direction="-0.668793,-0.021251,0.743145"/>
+        </ToDInfoArray>
+    </CLight>
+</Catalog>
