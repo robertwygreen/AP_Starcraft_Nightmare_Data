@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <!--                                                                                         -->
+    <!-- Odin .................................................................................. -->
+    <!--                                                                                         -->
+    <CActorUnit id="Odin">
+        <PortraitModel value="TychusPortrait"/>
+    </CActorUnit>
+</Catalog>
