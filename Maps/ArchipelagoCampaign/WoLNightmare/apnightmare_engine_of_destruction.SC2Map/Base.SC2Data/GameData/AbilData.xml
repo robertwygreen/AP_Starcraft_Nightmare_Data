@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CAbilEffectTarget id="OdinNuclearStrike">
+        <Range index="0" value="20"/>
+    </CAbilEffectTarget>
+</Catalog>

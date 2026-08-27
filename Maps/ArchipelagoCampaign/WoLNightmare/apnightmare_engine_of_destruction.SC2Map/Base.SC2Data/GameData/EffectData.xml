@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <CEffectDamage id="LokiHurricaneMissileDamage">
+        <AttributeBonus index="Light" value="2"/>
+        <Amount value="7"/>
+    </CEffectDamage>
+    <CEffectDamage id="LokiYamatoU">
+        <Amount value="400"/>
+    </CEffectDamage>
+</Catalog>
