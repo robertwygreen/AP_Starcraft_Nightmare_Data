@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Catalog>
+    <!--                                                                                         -->
+    <!-- Odin .................................................................................. -->
+    <!--                                                                                         -->
+    <CActorUnit id="Odin">
+        <PortraitModel value="TychusPortrait"/>
+        <SoundArray index="Birth" value="TychusOdin_Birth"/>
+        <SoundArray index="Ready" value="TychusOdin_Ready"/>
+        <SoundArray index="Help" value="TychusOdin_Help"/>
+        <SoundArray index="What" value="TychusOdin_What"/>
+        <SoundArray index="Yes" value="TychusOdin_Yes"/>
+        <SoundArray index="Attack" value="TychusOdin_Attack"/>
+        <SoundArray index="Pissed" value="TychusOdin_Pissed"/>
+        <SoundArray index="Movement" value="OdinMovement"/>
+        <SoundArray index="Turning" value="TychusOdin_Turning"/>
+        <SoundArray index="Board" value="TychusOdin_Board"/>
+    </CActorUnit>
+</Catalog>
